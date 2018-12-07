@@ -1,0 +1,23 @@
+{
+  "name": "minji",
+  "version": "1.0.0",
+  "description": "videoStore",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "miniji",
+    "video",
+    "store",
+    "assignment"
+  ],
+  "author": "Minji",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10"
+  }
+}

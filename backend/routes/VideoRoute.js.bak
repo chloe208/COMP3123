@@ -1,0 +1,210 @@
+const express = require('express');
+const router = express.Router();
+
+var ObjectID = require('mongodb').ObjectID;
+var MongoClient = require('mongodb').MongoClient;
+var url = 'mongodb://admin:admin1234@ds143892.mlab.com:43892/videostore';
+
+router.get('/video', function (req, res) {
+  console.log('/video requested! - GET :)')
+
+
+  MongoClient.connect(url ,{ useNewUrlParser: true }, function (err, client) {
+    if (err) throw err
+    var db = client.db('videostore')
+
+    // find documents from the collection, videolisting
+    // find() - see the mongoDB API
+    db.collection('videolisting').find().toArray(function (err, videoList) {
+      // get a list of documents as "videoList"
+
+      // if any error, throw it
+      if (err) throw err
+
+      // console.log(result)
+
+      // the videoList above - show it as response in JSON format
+      // .json automatically sets the Content-Type as JSON
+      // status(200) indicates HTTP status - success
+      // For more info about HTTP status, https://www.restapitutorial.com/httpstatuscodes.html
+      res.status(200).json({ videoList });
+    })
+  })
+});
+
+router.put('/video', function (req, res) {
+  console.log('/video requested! - PUT :D')
+
+  // console.log(req.body.videoTitle)
+
+  // function (req, res) {
+  
+  // req - we do need to get to know what you want to add
+  // example JSON request in POSTMAN
+  // {
+  // "title": "About Freakonomics",
+  // "runningTime": "25",
+  // "genre": "Action",
+  // "rating": "5",
+  // "director": "Stephen J",
+  // "status": "Unavailable"
+  // }
+
+  // res - we also need this as we need to know if success/failure
+
+  // just assign the req vals
+  // req.body contains the JSON you put in the POSTMAN
+  // parsing with the key name, title, runningTIme so on
+  var title = req.body.title;
+  var runningTime = req.body.runningTime;
+  var genre = req.body.genre;
+  var rating = req.body.rating;
+  var director = req.body.director;
+  var status = req.body.status;
+
+  // This is also optional. JSON keys and vals bundled as myJsonReq
+  myJsonReq={ 
+    title: title,
+    runningTime: runningTime ,
+    genre: genre ,
+    rating: rating ,
+    director: director ,
+    status: status ,
+  }
+
+  MongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
+    if (err) throw err
+
+    var db = client.db('videostore')
+
+    // insertOne() - see the mongodb API :) so you know how to use it just like all other APIs
+    // insert myJsonReq
+    db.collection('videolisting').insertOne(myJsonReq, function (err, object) {
+      if (err) throw err
+
+      // console.log(object.insertedCount)
+      // console.log(object.result.n )
+
+      // try printing object to see what mongoDB returns to you
+      // console.log(object)
+      // I found the returned val, object.result.n shows # of docs added
+      // How? see API docs below.
+      // https://docs.mongodb.com/manual/reference/command/insert/ 
+      // find a keyword, ok, they you get, n, in the same
+      // example below
+      // The following is an example document returned for a successful insert of a single document:
+      // {ok: 1, n: 1 }
+
+      // https://www.w3schools.com/nodejs/nodejs_mongodb_insert.asp
+
+      // so if > 0, then something added, otherwise could not.
+      if (object.result.n > 0) {
+        // 200 OK
+        res.status(200).json({ result: 'Successfully added' });
+        // Check if the doc was added from the console and delete if needed :)
+      } else {
+        res.status(204).json({ result: 'Could not add' });
+        // 204 No Content - I think this is the most appropriate
+        // The server successfully processed the request and is not returning any content.
+      }
+    });
+
+  })
+})
+
+router.post('/video/:id', function (req, res) { //Reading information
+  console.log('/video id requested! - post :D')
+
+  var title = req.body.title;
+  var runningTime = req.body.runningTime;
+  var genre = req.body.genre;
+  var rating = req.body.rating;
+  var director = req.body.director;
+  var status = req.body.status;
+
+  // This is also optional. JSON keys and vals bundled as myJsonReq
+  myJsonReq={ 
+    title: title,
+    runningTime: runningTime ,
+    genre: genre ,
+    rating: rating ,
+    director: director ,
+    status: status 
+  }
+  const id = req.params.id;
+  console.log(id)
+
+  MongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
+
+    var db = client.db('videostore')
+    db.collection('videolisting').updateOne(myJsonReq, function (err, object) {
+      if (err) throw err
+
+      if (object.result.n > 0) {
+        res.status(200).json({ result: 'Successfully updated' });
+      } else {
+        res.status(204).json({ result: 'Could not update' });
+
+      }
+    })}
+  
+    
+
+
+
+    // const details = {'_id' : new ObjectID(id)};
+
+    
+    // db.collection('videolisting').findOne(details, (err, object) => {
+    //   if (err) throw err
+
+    //   if (object.result.n > 0) {
+    //     res.status(200).json({ result: 'Found the Customer' });
+    //   } else {
+    //     res.status(204).json({ result: 'Could not find the customer' });
+    //   }
+    // });
+  //)
+
+  //})
+
+router.delete('/video/:id', function (req, res) { //Deleting information
+  console.log('/video id requested! - post :D')
+  const id = req.params.id;
+
+  MongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
+
+    var db = client.db('videostore')
+    db.collection('videolisting').deleteOne(myJsonReq, function (err, object) {
+      if (err) throw err
+
+      if (object.result.n > 0) {
+        res.status(200).json({ result: 'Successfully deleted' });
+      } else {
+        res.status(204).json({ result: 'Could not delete' });
+
+      }
+    })
+  
+
+
+
+// try /video as GET, /video as PUT, / as GET
+// /video as PUT requires "req" val - why? because the backend needs to know what to add!
+router.get('/', function (req, res) {
+  
+  console.log('below is what you requested in the BODY - btw GET does not need the body. Why? you do not need to provide any info to get a list of the collection.')
+  console.log(req.body)
+
+  console.log('/ requested!')
+
+  res.json({'check':'Health Check, yay!'});
+})
+
+
+module.exports = router;
+
+  //}
+  //)
+  //}
+//)
