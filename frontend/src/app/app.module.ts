@@ -10,13 +10,19 @@ import { CustomerComponent } from './customer/customer.component';
 import { LoginComponent } from './login/login.component';
 
 import {MyServiceService} from "./my-service.service";
+import { MainPageComponent } from './main-page/main-page.component';
+import { MainpageComponent } from './mainpage/mainpage.component';
+import { ReserveComponent } from './reserve/reserve.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VideoComponent,
     CustomerComponent,
-    LoginComponent
+    LoginComponent,
+    MainPageComponent,
+    MainpageComponent,
+    ReserveComponent
   ],
   imports: [
     BrowserModule,

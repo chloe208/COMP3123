@@ -14,7 +14,6 @@ export class CustomerComponent implements OnInit {
   constructor(private router: Router, private customerService: MyServiceService) { }
   
   ngOnInit() {
-
     this.customers = []
       this.customerService.getCustomers()
       .subscribe( data => {

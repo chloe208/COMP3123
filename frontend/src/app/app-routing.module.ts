@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { VideoComponent } from './video/video.component';
 import { CustomerComponent } from './customer/customer.component';
 import { LoginComponent } from './login/login.component';
+import { MainpageComponent } from './mainpage/mainpage.component';
+import { ReserveComponent } from './reserve/reserve.component';
 
 const routes: Routes = [
   // {
@@ -12,7 +14,7 @@ const routes: Routes = [
   // },
   {
     path: '',
-    component: VideoComponent
+    component: MainpageComponent
   },
   {
     path: 'video',
@@ -25,6 +27,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'reserve',
+    component: ReserveComponent
   }
 ];
 

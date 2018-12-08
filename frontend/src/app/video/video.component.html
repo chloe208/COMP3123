@@ -1,5 +1,11 @@
-<div class="container-fluid">
-  <h2> Welcome To MEAN Video Shop!</h2>
+<nav class="nav nav-pills flex-column flex-sm-row">
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Home</a>
+    <a class="flex-sm-fill text-sm-center nav-link active" href="./video">Videos</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="./customer">Customers</a>
+  </nav>
+
+<div class="jumbotron">
+  <h1> Hello Administrator!</h1>
   <!-- <button class="btn btn-warning" (click)="login()"> Login</button> -->
 
   <div class="row justify-content-md-center">
@@ -28,9 +34,9 @@
             <td>{{video.director}}</td>
             <td>{{video.status}}</td>
             <td>
-              <button type="button" class="btn btn-danger" (click)="edit(video._id)" data-toggle="modal" data-target="#editModal">
+              <button type="button" class="btn btn-primary" (click)="edit(video._id)" data-toggle="modal" data-target="#editModal">
                 Edit</button>
-              <button type="button" class="btn btn-danger" (click)="delete(video._id)" data-toggle="modal" data-target="#deleteModal"
+              <button type="button" class="btn btn-primary" (click)="delete(video._id)" data-toggle="modal" data-target="#deleteModal"
                 style="margin-left: 20px"> Delete</button></td>
 
           </tr>
