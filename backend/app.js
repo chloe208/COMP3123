@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-
+var cors = require('cors')
 var bodyParser = require('body-parser');
 
 var VideoRoute = require('./routes/VideoRoute');
@@ -15,11 +15,11 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
 //app.use(express.static(path.join(__dirname), 'my-app'));
+app.use(cors({origin: '*'}));
 
 // bodyParser extracts data from body when requested as POST
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 // if you look at the header, it is
 // Content-Type application/json; charset=utf-8
 app.use('.', index);
