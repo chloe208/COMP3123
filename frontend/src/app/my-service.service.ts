@@ -44,8 +44,21 @@ export class MyServiceService {
       ); 
   }
 
-  deleteVideo(id: number) {
-    // console.log(id, data)
+  deleteVideo(id) {
+    // console.log(id)
+    return this.http.delete(this.baseUrl + '/video/' + id,
+    {headers: this.GetHttpHeaders() }
+    )
+    .subscribe(
+      data => {
+        console.log("DELETE Request is successful", id);
+      },
+      error => {
+        console.log("ERR", error);
+      }
+    );
+
+
     // return this.http.delete<video>
     // (
     //   // this.baseUrl + '/video/' + id, 

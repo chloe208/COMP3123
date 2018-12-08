@@ -22,11 +22,28 @@ export class VideoComponent implements OnInit {
       });
 
   }
-  login(): void {
-    this.router.navigate(['login']);
-  };
-  delete(id) {
-    
+  // login(): void {
+  //   this.router.navigate(['login']);
+  // };
+
+  addVideos() {
+
+  }
+
+
+  deleteVideo(id) {
+    var videos = this.videos;
+
+    this.videoService.deleteVideo(id)
+    .subscribe( data => {
+      if (data.n == 1 ) {
+        for (var i = 0; i < videos.length; i++) {
+          if(videos[i]._id == id) {
+            videos.splice(i,1);
+          }
+        }
+      }
+    })
   }
 
 }

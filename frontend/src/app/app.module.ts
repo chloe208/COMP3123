@@ -2,15 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VideoComponent } from './video/video.component';
 import { CustomerComponent } from './customer/customer.component';
 import { LoginComponent } from './login/login.component';
-
 import {MyServiceService} from "./my-service.service";
-import { MainPageComponent } from './main-page/main-page.component';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { ReserveComponent } from './reserve/reserve.component';
 
@@ -20,7 +20,6 @@ import { ReserveComponent } from './reserve/reserve.component';
     VideoComponent,
     CustomerComponent,
     LoginComponent,
-    MainPageComponent,
     MainpageComponent,
     ReserveComponent
   ],
@@ -28,7 +27,8 @@ import { ReserveComponent } from './reserve/reserve.component';
     BrowserModule,
     BrowserAnimationsModule, // new modules added here
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [MyServiceService],
   bootstrap: [AppComponent]
