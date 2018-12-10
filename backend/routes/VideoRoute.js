@@ -105,20 +105,22 @@ router.put('/video/:id', function (req, res) {
   var director = req.body.director;
   var status = req.body.status;
 
-  myJsonReq={ 
-    title: title,
-    runningTime: runningTime ,
-    genre: genre ,
-    rating: rating ,
-    director: director ,
-    status: status
-  }
+  // myJsonReq={ 
+  //   title: title,
+  //   runningTime: runningTime ,
+  //   genre: genre ,
+  //   rating: rating ,
+  //   director: director ,
+  //   status: status
+  // }
 
   MongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
     if (err) throw err
+    var ObjectId = require('mongodb').ObjectId
+    var newvalues = { $set: {status: status} };
 
     var db = client.db('videostore')
-    db.collection('videolisting').updateOne(myJsonReq, function (err, object) {
+    db.collection('videolisting').updateOne({"_id": ObjectId(req.params.id)}, newvalues, function (err, object) {
       if (err) throw err
       if (object.result.n > 0) {
         res.status(200).json({ result: 'Successfully updated' });

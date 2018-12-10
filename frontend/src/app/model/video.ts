@@ -1,5 +1,5 @@
 export class Video {
-    id: number;
+    _id: number;
     title: string;
     runningTime: string;
     genre: string;

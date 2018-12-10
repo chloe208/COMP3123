@@ -1,21 +1,29 @@
 <nav class="nav nav-pills flex-column flex-sm-row">
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Home</a>
-    <a class="flex-sm-fill text-sm-center nav-link active" href="./video">Videos</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="./customer">Customers</a>
-  </nav>
+  <a class="flex-sm-fill text-sm-center nav-link" href="#">Home</a>
+  <a class="flex-sm-fill text-sm-center nav-link active" href="./video">Videos</a>
+  <a class="flex-sm-fill text-sm-center nav-link" href="./customer">Customers</a>
+</nav>
 
 <div class="jumbotron">
   <div>
-  <h1> Hello Administrator!
-  <button type="button" class="btn btn-primary" (click)="add(video._id)" data-toggle="modal" data-target="#addModal">
-      Add Video</button>
-  </h1>
-      </div>
-  <!-- <button class="btn btn-warning" (click)="login()"> Login</button> -->
+    <h1> Hello Administrator!
+      <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#addModal">
+        Add Video</button>
+    </h1>
+  </div>
+  <!-- <div>
+          <input (ngModel)="searchText" placeholder="search text goes here">
+          <ul>
+            <li *ngFor="let video of videos.videoList | filter : searchText">{{video}}</li>
+          </ul>
+          </div>
+   -->
 
   <div class="row justify-content-md-center">
 
     <div class="col">
+      <input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+
       <table class="table table-striped  table-hover">
         <thead>
           <tr>
@@ -30,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let video of videos.videoList">
+          <tr *ngFor="let video of videos.videoList| paginate: { itemsPerPage: 2, currentPage: p }|grdFilter: {title: searchText}">
             <!--  <td class="hidden">{{video._id}}</td> -->
             <td>{{video.title}}</td>
             <td>{{video.runningTime + "Minutes"}}</td>
@@ -41,12 +49,13 @@
             <td>
               <button type="button" class="btn btn-primary" (click)="edit(video._id)" data-toggle="modal" data-target="#editModal">
                 Edit</button>
-              <button type="button" class="btn btn-primary" (click)="deleteVideo(video._id)" data-toggle="modal" data-target="#deleteModal"
-                style="margin-left: 20px"> Delete</button></td>
+              <button type="button" class="btn btn-primary" (click)="deleteVideo(videos.videoList,video._id)"
+                data-toggle="modal" data-target="#deleteModal" style="margin-left: 20px"> Delete</button></td>
 
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
     </div>
   </div>
@@ -54,82 +63,61 @@
 <!-- Button trigger modal -->
 <!-- Modal for adding a new video-->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel">Add Video</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!--Editting Vidoe FORM-->
-          <form>
-            <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="vidTitle" placeholder="">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label">Running Time</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="vidRT" placeholder="">
-              </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Genre</label>
-                <div class="col-sm-10">
-                <select class="form-control" id="vidGenre">
-                  <option selected>Choose...</option>
-                  <option value="1">Adventure</option>
-                  <option value="2">Drama</option>
-                  <option value="3">Fantasy</option>
-                  <option value="4">Horror</option>
-                  <option value="5">Science Finction</option>
-                  <option value="6">Sports</option>
-                </select>
-              </div>
-              </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Rating</label>
-                  <div class="col-sm-10">
-                  <select class="form-control" id="vidRating">
-                    <option selected>Choose...</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label">Director</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="vidDirector" placeholder="">
-              </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Status</label>
-                <div class="col-sm-10">
-                <select class="form-control" id="vidStatus">
-                  <option selected>Choose...</option>
-                  <option value="1">Available</option>
-                  <option value="2">Unavailable</option>
-                </select>
-              </div>
-              </div> 
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="addVideo(vidoe._id)">Add</button>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add Video</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--Editting Vidoe FORM-->
+
+        <form [formGroup]="myform">
+          <!-- Title	Running Time	Genre	Rating	Director	Status -->
+          <div class="form-group">
+            <label>Title</label>
+            <input type="email" class="form-control" formControlName="title" required>
+          </div>
+          <div class="form-group">
+            <label>Running Time</label>
+            <input type="email" class="form-control" formControlName="runningTime" required>
+          </div>
+          <div class="form-group">
+            <label>Genre</label>
+            <input type="email" class="form-control" formControlName="genre" required>
+          </div>
+          <div class="form-group">
+            <label>Rating</label>
+            <input type="email" class="form-control" formControlName="rating" required>
+          </div>
+          <div class="form-group">
+            <label>Director</label>
+            <input type="password" class="form-control" formControlName="director" required>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select class="form-control" formControlName="status">
+              <option value="">Please select a status</option>
+              <option *ngFor="let lang of langs" [value]="lang">{{lang}}
+              </option>
+            </select>
+          </div>
+
+          <pre>{{myform.value | json}}</pre>
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addVideo(myform.value)" data-dismiss="modal">Add</button>
       </div>
     </div>
   </div>
-  
+</div>
+
 
 <!-- Modal for edit-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -147,19 +135,19 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="vidTitle" placeholder="">
+              <input type="text" class="form-control" id="vidTitle2" placeholder="">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputPassword3" class="col-sm-2 col-form-label">Running Time</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="vidRT" placeholder="">
+              <input type="text" class="form-control" id="vidRT2" placeholder="">
             </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Genre</label>
-              <div class="col-sm-10">
-              <select class="form-control" id="vidGenre">
+            <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Genre</label>
+            <div class="col-sm-10">
+              <select class="form-control" id="vidGenre2">
                 <option selected>Choose...</option>
                 <option value="1">Adventure</option>
                 <option value="2">Drama</option>
@@ -169,36 +157,36 @@
                 <option value="6">Sports</option>
               </select>
             </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Rating</label>
-                <div class="col-sm-10">
-                <select class="form-control" id="vidRating">
-                  <option selected>Choose...</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              </div>
+          </div>
           <div class="form-group row">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Director</label>
+            <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Rating</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="vidDirector" placeholder="">
+              <select class="form-control" id="vidRating2">
+                <option selected>Choose...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
             </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Status</label>
-              <div class="col-sm-10">
-              <select class="form-control" id="vidStatus">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Director</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="vidDirector2" placeholder="">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="inlineFormCustomSelect">Status</label>
+            <div class="col-sm-10">
+              <select class="form-control" id="vidStatus2">
                 <option selected>Choose...</option>
                 <option value="1">Available</option>
                 <option value="2">Unavailable</option>
               </select>
             </div>
-            </div> 
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -209,12 +197,7 @@
   </div>
 </div>
 
-<!-- Pagination Function
-<ul>
-  <li *ngFor="let video of videos.videoList | paginate: {itemsPerPage: 5, currentPage: p}"> {{ video }}</li>
-</ul>
-<pagenation-coltrols (pageChange)="p =$event"></pagenation-coltrols>
--->
+
 
 <!-- Modal  for delete
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

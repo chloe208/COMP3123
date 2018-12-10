@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { GrdFilterPipe } from './grd-filter';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,14 +22,18 @@ import { ReserveComponent } from './reserve/reserve.component';
     CustomerComponent,
     LoginComponent,
     MainpageComponent,
-    ReserveComponent
+    ReserveComponent,
+    GrdFilterPipe
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule, // new modules added here
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule
+
   ],
   providers: [MyServiceService],
   bootstrap: [AppComponent]

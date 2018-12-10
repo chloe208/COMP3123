@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import {Video} from "./model/video";
+import {Customer} from "./model/customer";
 import { map } from 'rxjs/operators';
 
 // Regarding HTTP service
@@ -17,9 +18,9 @@ export class MyServiceService {
   //setup the header - JSON!
   GetHttpHeaders() : HttpHeaders{
     const headers = new HttpHeaders().set('content-type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization');
+    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
     return headers;
   }
@@ -45,18 +46,18 @@ export class MyServiceService {
   }
 
   deleteVideo(id) {
-    // console.log(id)
+    console.log(id)
     return this.http.delete(this.baseUrl + '/video/' + id,
     {headers: this.GetHttpHeaders() }
     )
-    .subscribe(
-      data => {
-        console.log("DELETE Request is successful", id);
-      },
-      error => {
-        console.log("ERR", error);
-      }
-    );
+    // .subscribe(
+    //   data => {
+    //     console.log("DELETE Request is successful", id);
+    //   },
+    //   error => {
+    //     console.log("ERR", error);
+    //   }
+    // );
 
 
     // return this.http.delete<video>
@@ -85,30 +86,14 @@ export class MyServiceService {
     
 
   }
-  addVideos(id: number, data: String){
-    // console.log(id, data)
-    this.http.put(
-      this.baseUrl + '/video/' + id,
-      // localhost:4000/video/1473647
-      // you may want to replace this with data :)
-      {
-          "title": "Paris can wait",
-          "runningTime": "22",
-          "genre": "Romance",
-          "rating": "5",
-          "director": "Eleanor Coppola",
-          "status": "Available",
-      },
+  addVideo(data: any){
+    // console.log(data)
+    return this.http.put(
+      this.baseUrl + '/video',
+      data,
       {headers: this.GetHttpHeaders()}
       )
-      .subscribe(
-          data => {
-              console.log("PUT Request is successful ", data);
-          },
-          error => {
-              console.log("ERR", error);
-          }
-      ); 
+      
   }
 
   // getVideoById(id: number) {
@@ -116,7 +101,7 @@ export class MyServiceService {
   // }
 
   getCustomers() {
-    return this.http.get<Video[]>(this.baseUrl + '/customer');
+    return this.http.get<Customer[]>(this.baseUrl + '/customer');
   }
 
 

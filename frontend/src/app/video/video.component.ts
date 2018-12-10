@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {MyServiceService} from "../my-service.service";
-import {Video} from "../model/video";
+import { Router } from "@angular/router";
+import { MyServiceService } from "../my-service.service";
+import { Video } from "../model/video";
+import Swal from 'sweetalert2'
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-video',
@@ -10,13 +12,35 @@ import {Video} from "../model/video";
 })
 export class VideoComponent implements OnInit {
   videos: Video[]
-  constructor(private router: Router,private videoService: MyServiceService) { }
+  video: any
+  searchText: string;
+
+  // <!-- Title	Running Time	Genre	Rating	Director	Status -->
+
+  // myform: any; 
+  langs: string[] = [
+    'English',
+    'French',
+    'German',
+  ]
+  myform = new FormGroup({
+    title: new FormControl(),
+    runningTime: new FormControl(),
+    genre: new FormControl(),
+    rating: new FormControl(),
+    director: new FormControl(),
+    status: new FormControl()
+  });
+
+
+  constructor(private router: Router, private videoService: MyServiceService) { }
 
   ngOnInit() {
+
     this.videos = []
 
-      this.videoService.getVideos()
-      .subscribe( data => {
+    this.videoService.getVideos()
+      .subscribe(data => {
         this.videos = data;
         console.log(data);
       });
@@ -26,24 +50,64 @@ export class VideoComponent implements OnInit {
   //   this.router.navigate(['login']);
   // };
 
-  addVideos() {
-
+  addVideo(event) {
+    // console.log(event)
+    this.videoService.addVideo(event)
+      .subscribe(
+        data => {
+          console.log("PUT Request is successful ", data);
+          this.ngOnInit()
+        },
+        error => {
+          console.log("ERR", error);
+        }
+      );
   }
 
 
-  deleteVideo(id) {
-    var videos = this.videos;
+  deleteVideo(event, id) {
 
-    this.videoService.deleteVideo(id)
-    .subscribe( data => {
-      if (data.n == 1 ) {
-        for (var i = 0; i < videos.length; i++) {
-          if(videos[i]._id == id) {
-            videos.splice(i,1);
-          }
-        }
+
+    Swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+
+        var videos = this.videos;
+        this.video = [event]
+        // console.log([event])
+        console.log(event)
+        this.videoService.deleteVideo(id)
+          .subscribe(data => {
+            // if (data.n == 1 ) {
+            event.splice(0, 1)
+            console.log(event.id)
+            if (data == 1) {
+              for (var i = 0; i < videos.length; i++) {
+                if (videos[i]._id == event.id) {
+
+                }
+              }
+            }
+          })
+
+        Swal(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
       }
     })
+
+
+
+
   }
 
 }
