@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Customer} from "../model/customer";
 import {Router} from "@angular/router";
 import {MyServiceService} from "../my-service.service";
+import { FormGroup, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -11,6 +12,8 @@ import {MyServiceService} from "../my-service.service";
 })
 export class CustomerComponent implements OnInit {
   customers: Customer[]
+  searchText: string;
+
   constructor(private router: Router, private customerService: MyServiceService) { }
   
   ngOnInit() {

@@ -17,12 +17,30 @@ export class VideoComponent implements OnInit {
 
   // <!-- Title	Running Time	Genre	Rating	Director	Status -->
 
-  // myform: any; 
-  langs: string[] = [
-    'English',
-    'French',
-    'German',
+  // // myform: any; 
+  statuss: string[] = [
+    'Available',
+    'Unavailable',
   ]
+
+  genres: string[] = [
+    'Adventure',
+    'Drama',
+    'Fantasy',
+    'Horror',
+    'Science Finction',
+    'Sports',
+    'etc',
+  ]
+
+  ratings: string[] = [
+    '5',
+    '4',
+    '3',
+    '2',
+    '1',
+  ]
+
   myform = new FormGroup({
     title: new FormControl(),
     runningTime: new FormControl(),
@@ -57,17 +75,35 @@ export class VideoComponent implements OnInit {
         data => {
           console.log("PUT Request is successful ", data);
           this.ngOnInit()
+          //this.resetForm(event);
         },
         error => {
           console.log("ERR", error);
         }
       );
+
+  }
+  updateVideoById(event) {
+    // var update = {
+    //   title: this.title,
+
+    // }
+  //   this.updateVideoById(id, data)
+  //   console.log(id, data)
+  //     .subscribe(
+  //       data => {
+  //       console.log("PUT(Update) Request is successfull", data);
+  //       this.ngOnInit()
+  //     },
+  //     error => {
+  //       console.log("ERR", error);
+  //     }
+  //   )
+  // }
   }
 
-
+  
   deleteVideo(event, id) {
-
-
     Swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -78,7 +114,6 @@ export class VideoComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-
         var videos = this.videos;
         this.video = [event]
         // console.log([event])
@@ -96,7 +131,6 @@ export class VideoComponent implements OnInit {
               }
             }
           })
-
         Swal(
           'Deleted!',
           'Your file has been deleted.',
