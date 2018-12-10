@@ -13,5 +13,7 @@ npm install
 ### Additional Information
 
 To access to admin page,
+```
 Id: admin
 password: admin
+```
