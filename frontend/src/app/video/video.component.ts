@@ -15,8 +15,6 @@ export class VideoComponent implements OnInit {
   video: any
   searchText: string;
 
-  // <!-- Title	Running Time	Genre	Rating	Director	Status -->
-
   // // myform: any; 
   statuss: string[] = [
     'Available',
@@ -64,9 +62,7 @@ export class VideoComponent implements OnInit {
       });
 
   }
-  // login(): void {
-  //   this.router.navigate(['login']);
-  // };
+
 
   addVideo(event) {
     // console.log(event)
@@ -83,26 +79,41 @@ export class VideoComponent implements OnInit {
       );
 
   }
-  updateVideoById(event) {
+  // <!-- Title	Running Time	Genre	Rating	Director	Status -->
+
+  updateVideoById(id, data) {
+    //this.videoService.updateVideoById(id, data)
+    console.log(id)
+    this.videoService.updateVideoById(id, data)
+      .subscribe(params =>
+        data => {
+          console.log("PUT(Update) Request is successfull", data);
+          this.ngOnInit()
+        },
+        error => {
+          console.log("ERR", error);
+        }
+      )
+      
     // var update = {
     //   title: this.title,
 
     // }
-  //   this.updateVideoById(id, data)
-  //   console.log(id, data)
-  //     .subscribe(
-  //       data => {
-  //       console.log("PUT(Update) Request is successfull", data);
-  //       this.ngOnInit()
-  //     },
-  //     error => {
-  //       console.log("ERR", error);
-  //     }
-  //   )
-  // }
+    //   this.updateVideoById(id, data)
+    //   console.log(id, data)
+    //     .subscribe(
+    //       data => {
+    //       console.log("PUT(Update) Request is successfull", data);
+    //       this.ngOnInit()
+    //     },
+    //     error => {
+    //       console.log("ERR", error);
+    //     }
+    //   )
+    // }
   }
 
-  
+  //Deleting videos on Admin Page
   deleteVideo(event, id) {
     Swal({
       title: 'Are you sure?',
@@ -116,11 +127,9 @@ export class VideoComponent implements OnInit {
       if (result.value) {
         var videos = this.videos;
         this.video = [event]
-        // console.log([event])
         console.log(event)
         this.videoService.deleteVideo(id)
           .subscribe(data => {
-            // if (data.n == 1 ) {
             event.splice(0, 1)
             console.log(event.id)
             if (data == 1) {

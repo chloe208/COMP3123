@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VideoComponent } from './video/video.component';
 import { CustomerComponent } from './customer/customer.component';
-import { LoginComponent } from './login/login.component';
 import {MyServiceService} from "./my-service.service";
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { ReserveComponent } from './reserve/reserve.component';
@@ -20,7 +19,6 @@ import { ReserveComponent } from './reserve/reserve.component';
     AppComponent,
     VideoComponent,
     CustomerComponent,
-    LoginComponent,
     MainpageComponent,
     ReserveComponent,
     GrdFilterPipe

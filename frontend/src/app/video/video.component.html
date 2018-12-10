@@ -135,7 +135,7 @@
 
           <div class="form-group">
             <label>Title</label>
-            <input type="text" class="form-control"  formControlName="title" required>
+            <input type="text" class="form-control" formControlName="title" [value] = "title"/>
           </div>
           <div class="form-group">
             <label>Running Time</label>
@@ -167,7 +167,7 @@
             </select>
           </div>
 
-          <pre>{{myform.value | json}}</pre>
+          <!--<pre>{{myform.value | json}}</pre> -->
 
         </form>
       </div>

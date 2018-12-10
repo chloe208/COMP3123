@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VideoComponent } from './video/video.component';
 import { CustomerComponent } from './customer/customer.component';
-import { LoginComponent } from './login/login.component';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { ReserveComponent } from './reserve/reserve.component';
 
@@ -23,10 +22,6 @@ const routes: Routes = [
   {
     path: 'customer',
     component: CustomerComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
   },
   {
     path: 'reserve',
