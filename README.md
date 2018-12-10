@@ -2,8 +2,10 @@
 
 COMP 3123 Video Store 
 
+```
 Minji Kim 101082300
 Dakyung Lee 101079446
+```
 
 ### Prerequisites
 
