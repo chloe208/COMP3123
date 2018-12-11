@@ -15,13 +15,14 @@ For both Back-end and Front-end
 npm install
 ```
 
-### Servers
+### Development Servers
 
  Back-end server:
 
 ```
 http://localhost:4000/.
 ```
+ The app will automatically reload if you change any of the source files. 
  Front-end server:
 
 ```
