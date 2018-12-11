@@ -14,6 +14,21 @@ For both Back-end and Front-end
 ```
 npm install
 ```
+
+### Servers
+
+ Back-end server:
+
+```
+http://localhost:4000/.
+```
+ Front-end server:
+
+```
+http://localhost:4200/.
+```
+
+
 ### Additional Information
 
 To access to admin page,
