@@ -85,15 +85,15 @@ export class VideoComponent implements OnInit {
     //this.videoService.updateVideoById(id, data)
     console.log(id)
     this.videoService.updateVideoById(id, data)
-      .subscribe(params =>
-        data => {
-          console.log("PUT(Update) Request is successfull", data);
-          this.ngOnInit()
-        },
-        error => {
-          console.log("ERR", error);
-        }
-      )
+      // .subscribe(params =>
+      //   data => {
+      //     console.log("PUT(Update) Request is successfull", data);
+      //     this.ngOnInit()
+      //   },
+      //   error => {
+      //     console.log("ERR", error);
+      //   }
+      // )
       
     // var update = {
     //   title: this.title,
