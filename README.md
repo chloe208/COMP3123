@@ -1,7 +1,8 @@
 # Project Title
 
 MEAN Stack Application
-<DVD Rental Service Application>
+
+DVD Rental Service Application
 
 ### Prerequisites
 
